@@ -1,0 +1,1 @@
+56116 562949954410541 1674108560000000000 52f60689778b65d7c0e5a128c1da83e6 C:\Users\Dustin\AppData\Local\Microsoft\WinGet\Packages\zig.zig_Microsoft.Winget.Source_8wekyb3d8bbwe\zig-windows-x86_64-0.10.1\lib\libc\mingw\lib-common\ntdll.def.in
