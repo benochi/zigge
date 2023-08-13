@@ -1,0 +1,1 @@
+18381 562949954410414 1674108560000000000 b939f3fd17c6f6db4ec2dfda0e909384 C:\Users\Dustin\AppData\Local\Microsoft\WinGet\Packages\zig.zig_Microsoft.Winget.Source_8wekyb3d8bbwe\zig-windows-x86_64-0.10.1\lib\libc\mingw\lib-common\advapi32.def.in
