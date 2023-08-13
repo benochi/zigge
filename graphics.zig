@@ -1,1 +1,0 @@
-//Vuklkan GPL code.
