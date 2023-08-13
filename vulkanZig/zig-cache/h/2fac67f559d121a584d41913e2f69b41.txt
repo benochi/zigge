@@ -1,0 +1,1 @@
+17468 1407374886780168 1674086959000000000 fc9286ecef067531669625238bd0203c C:\ProgramData\chocolatey\lib\zig\tools\zig-windows-x86_64-0.10.1\lib\libc\mingw\lib-common\user32.def.in

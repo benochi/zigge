@@ -1,0 +1,1 @@
+7613 1407374886780153 1674086959000000000 6ec2150744adf80eba84b0d57b9f9773 C:\ProgramData\chocolatey\lib\zig\tools\zig-windows-x86_64-0.10.1\lib\libc\mingw\lib-common\shell32.def

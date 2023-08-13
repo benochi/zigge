@@ -1,0 +1,1 @@
+26947 1407374886780096 1674086959000000000 09d880e1b851a980f88298a634ed00d4 C:\ProgramData\chocolatey\lib\zig\tools\zig-windows-x86_64-0.10.1\lib\libc\mingw\lib-common\msvcrt.def.in
