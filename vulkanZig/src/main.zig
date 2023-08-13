@@ -11,20 +11,18 @@ const Entry = struct {
     };
 
     handle: std.DynLib,
+    get_instance_proc_addr: std.meta.Child(c.PFN_vkGetInstanceProcAddr),
 
     fn init() !Self {
-        const library = try load_library();
+        var library = try load_library();
         return .{
             .handle = library,
+            .get_instance_proc_addr = library.lookup(std.meta.Child(c.PFN_vkGetInstanceProcAddr), "vkGetInstanceProcAddr").?,
         };
     }
 
     fn deinit(self: *Self) void {
         self.handle.close();
-    }
-
-    fn lookup(self: *Self) void {
-        self.handle.lookup(c.PFN_vkGetInstanceProcAddr);
     }
 
     fn load_library() !std.DynLib {

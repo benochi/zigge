@@ -1,9 +1,9 @@
-949 3096224745449090 1691937393322617100 71ab1064ddacab2d8eef6387205f6da5 C:\Users\Dan\Desktop\zigge\vulkanZig\src\main.zig
-949 3096224745449090 1691937393322617100 71ab1064ddacab2d8eef6387205f6da5 C:\Users\Dan\Desktop\zigge\vulkanZig\src\main.zig
+1146 3096224745449090 1691939641097518900 e1b479a6f5b68002db076fed50907926 C:\Users\Dan\Desktop\zigge\vulkanZig\src\main.zig
+1146 3096224745449090 1691939641097518900 e1b479a6f5b68002db076fed50907926 C:\Users\Dan\Desktop\zigge\vulkanZig\src\main.zig
 5621 562949956706455 1674086960000000000 66001e1a55f68e4681c1f32a69223647 C:\ProgramData\chocolatey\lib\zig\tools\zig-windows-x86_64-0.10.1\lib\std\std.zig
 5621 562949956706455 1674086960000000000 66001e1a55f68e4681c1f32a69223647 C:\ProgramData\chocolatey\lib\zig\tools\zig-windows-x86_64-0.10.1\lib\std\std.zig
 24345 562949956706453 1674086960000000000 62880d6cfcae34387545ced4cffbd605 C:\ProgramData\chocolatey\lib\zig\tools\zig-windows-x86_64-0.10.1\lib\std\start.zig
-949 3096224745449090 1691937393322617100 71ab1064ddacab2d8eef6387205f6da5 C:\Users\Dan\Desktop\zigge\vulkanZig\src\main.zig
+1146 3096224745449090 1691939641097518900 e1b479a6f5b68002db076fed50907926 C:\Users\Dan\Desktop\zigge\vulkanZig\src\main.zig
 2561 14073748836120596 1691936964978093300 ec06d5c8253813ec85acef724bb34ebc C:\Users\Dan\Desktop\zigge\vulkanZig\zig-cache\o\c671cdc00927ecec233106e6cc6c144c\builtin.zig
 30315 562949956706043 1674086960000000000 57ad780aea8cfecc2df8b9f237c95642 C:\ProgramData\chocolatey\lib\zig\tools\zig-windows-x86_64-0.10.1\lib\std\builtin.zig
 65579 562949956706457 1674086960000000000 de4ed4ac038e061fe21f7118a8e1c089 C:\ProgramData\chocolatey\lib\zig\tools\zig-windows-x86_64-0.10.1\lib\std\target.zig
@@ -11,6 +11,7 @@
 69440 562949956706260 1674086960000000000 aaf750c9a42200c190c26cdff2a8fc0d C:\ProgramData\chocolatey\lib\zig\tools\zig-windows-x86_64-0.10.1\lib\std\math.zig
 41151 562949956706329 1674086960000000000 7877cddbe663327068e65074bd55aa97 C:\ProgramData\chocolatey\lib\zig\tools\zig-windows-x86_64-0.10.1\lib\std\meta.zig
 14285 562949956706167 1674086960000000000 67ab4d31a8c84daebcdadb1ba2b3a84e C:\ProgramData\chocolatey\lib\zig\tools\zig-windows-x86_64-0.10.1\lib\std\dynamic_library.zig
+915908 6473924465994688 1691932387135581400 83f52089c0c0a06d22c22db684abb447 C:\Users\Dan\Desktop\zigge\vulkanZig\src\c.zig
 287451 562949956706338 1674086960000000000 e8e614f6979449bc0771c428d30daa22 C:\ProgramData\chocolatey\lib\zig\tools\zig-windows-x86_64-0.10.1\lib\std\os.zig
 144492 562949956706417 1674086960000000000 24fd8d7401d0a36b66109fac98f32233 C:\ProgramData\chocolatey\lib\zig\tools\zig-windows-x86_64-0.10.1\lib\std\os\windows.zig
 144153 562949956706326 1674086960000000000 b991eac2066182d106a99f911ccfdf98 C:\ProgramData\chocolatey\lib\zig\tools\zig-windows-x86_64-0.10.1\lib\std\mem.zig
