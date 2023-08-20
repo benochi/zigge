@@ -2,10 +2,6 @@ const std = @import("std");
 const builtin = @import("builtin");
 const c = @import("c.zig");
 
-//  pub fn call(self: Self, comptime name: []const u8) @field(c, "PFN_" ++ name) {
-//         return self.handle.lookup(@field(c, "PFN_" ++ name), name);
-//     }
-
 fn load(comptime name: []const u8, proc_addr: anytype) std.meta.Child(@field(c, "PFN_" ++ name)) {
     return @ptrCast(std.meta.Child(@field(c, "PFN_" ++ name)), proc_addr(null, name));
 }
