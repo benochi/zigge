@@ -50,7 +50,7 @@ const Instance = struct {
         var instance: c.VkInstance = undefined;
         switch (entry.create_instance(&info, allocation_callbacks, &instance)) {
             c.VK_SUCCESS => {
-                const destroy_instance = @ptrCast(std.meta.Child(c.PFN_vkDestroyInstance), entry.get_instance_proc_addr(instance, "vkCreateInstance"));
+                const destroy_instance = @ptrCast(std.meta.Child(c.PFN_vkDestroyInstance), entry.get_instance_proc_addr(instance, "vkDestroyInstance"));
                 return .{
                     .handle = instance,
                     .destroy_instance = destroy_instance,
