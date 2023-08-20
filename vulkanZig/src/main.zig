@@ -37,28 +37,42 @@ const Entry = struct {
     }
 };
 
+const Instance = struct {
+    const Self = @This();
+    handle: c.VkInstance,
+    destroy_instance: std.meta.Child(c.PFN_vkDestroyInstance),
+    allocation_callbacks: ?*c.VkAllocationCallbacks,
+
+    fn init(entry: Entry, allocation_callbacks: ?*c.VkAllocationCallbacks) !Self {
+        const info = std.mem.zeroInit(c.VkInstanceCreateInfo, .{
+            .sType = c.VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
+        });
+        var instance: c.VkInstance = undefined;
+        switch (entry.create_instance(&info, allocation_callbacks, &instance)) {
+            c.VK_SUCCESS => {
+                const destroy_instance = @ptrCast(std.meta.Child(c.PFN_vkDestroyInstance), entry.get_instance_proc_addr(instance, "vkCreateInstance"));
+                return .{
+                    .handle = instance,
+                    .destroy_instance = destroy_instance,
+                    .allocation_callbacks = allocation_callbacks,
+                };
+            },
+            else => unreachable,
+        }
+    }
+
+    fn deinit(self: Self) void {
+        self.destroy_instance(
+            self.handle,
+            self.allocation_callbacks,
+        );
+    }
+};
+
 pub fn main() !void {
     var entry = try Entry.init();
     defer entry.deinit();
 
-    // sType: VkStructureType,
-    // pNext: ?*const anyopaque,
-    // flags: VkInstanceCreateFlags,
-    // pApplicationInfo: [*c]const VkApplicationInfo,
-    // enabledLayerCountL: u32,
-    // ppEnabledLayerNames: [*c]const [*c]const u8,
-    // enabledExtensionCount: u32,
-    // ppEnabledExtensionNames: [*c]const [*c]const u8,
-
-    const info = std.mem.zeroInit(c.VkInstanceCreateInfo, .{
-        .sType = c.VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
-    });
-
-    const allocation_callbacks = null;
-
-    var instance: c.VkInstance = undefined;
-    switch (entry.create_instance(&info, allocation_callbacks, &instance)) {
-        c.VK_SUCCESS => {},
-        else => undefined,
-    }
+    const instance = try Instance.init(entry, null);
+    defer instance.deinit();
 }
