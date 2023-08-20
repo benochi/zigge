@@ -36,4 +36,9 @@ const Entry = struct {
 pub fn main() !void {
     var entry = try Entry.init();
     defer entry.deinit();
+
+    const info = c.VkInstanceCreateInfo{};
+    _ = info;
+    const create_instance = @ptrCast(c.PFN_vkCreateInstance, entry.get_instance_proc_addr(null, "vkCreateInstance"));
+    create_instance();
 }
