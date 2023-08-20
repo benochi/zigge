@@ -37,8 +37,28 @@ pub fn main() !void {
     var entry = try Entry.init();
     defer entry.deinit();
 
-    const info = c.VkInstanceCreateInfo{};
-    _ = info;
+    // sType: VkStructureType,
+    // pNext: ?*const anyopaque,
+    // flags: VkInstanceCreateFlags,
+    // pApplicationInfo: [*c]const VkApplicationInfo,
+    // enabledLayerCountL: u32,
+    // ppEnabledLayerNames: [*c]const [*c]const u8,
+    // enabledExtensionCount: u32,
+    // ppEnabledExtensionNames: [*c]const [*c]const u8,
+
+    const info = c.VkInstanceCreateInfo{
+        .sType = c.VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
+        .pNext = null,
+        .flags = 0,
+        .pApplicationInfo = null,
+        .enabledLayerCount = 0,
+        .ppEnabledLayerNames = null,
+        .enabledExtensionCount = 0,
+        .ppEnabledExtensionNames = null,
+    };
+
+    const allocation_callbacks = null;
+
     const create_instance = @ptrCast(c.PFN_vkCreateInstance, entry.get_instance_proc_addr(null, "vkCreateInstance"));
-    create_instance();
+    create_instance(&info, allocation_callbacks);
 }
