@@ -12,12 +12,16 @@ const Entry = struct {
 
     handle: std.DynLib,
     get_instance_proc_addr: std.meta.Child(c.PFN_vkGetInstanceProcAddr),
+    create_instance: std.meta.Child(c.PFN_vkCreateInstance),
 
     fn init() !Self {
         var library = try load_library();
+        const get_instance_proc_addr = library.lookup(std.meta.Child(c.PFN_vkGetInstanceProcAddr), "vkGetInstanceProcAddr").?;
+        const create_instance = @ptrCast(std.meta.Child(c.PFN_vkCreateInstance), get_instance_proc_addr(null, "vkCreateInstance"));
         return .{
             .handle = library,
-            .get_instance_proc_addr = library.lookup(std.meta.Child(c.PFN_vkGetInstanceProcAddr), "vkGetInstanceProcAddr").?,
+            .get_instance_proc_addr = get_instance_proc_addr,
+            .create_instance = create_instance,
         };
     }
 
@@ -46,19 +50,15 @@ pub fn main() !void {
     // enabledExtensionCount: u32,
     // ppEnabledExtensionNames: [*c]const [*c]const u8,
 
-    const info = c.VkInstanceCreateInfo{
+    const info = std.mem.zeroInit(c.VkInstanceCreateInfo, .{
         .sType = c.VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
-        .pNext = null,
-        .flags = 0,
-        .pApplicationInfo = null,
-        .enabledLayerCount = 0,
-        .ppEnabledLayerNames = null,
-        .enabledExtensionCount = 0,
-        .ppEnabledExtensionNames = null,
-    };
+    });
 
     const allocation_callbacks = null;
 
-    const create_instance = @ptrCast(c.PFN_vkCreateInstance, entry.get_instance_proc_addr(null, "vkCreateInstance"));
-    create_instance(&info, allocation_callbacks);
+    var instance: c.VkInstance = undefined;
+    switch (entry.create_instance(&info, allocation_callbacks, &instance)) {
+        c.VK_SUCCESS => {},
+        else => undefined,
+    }
 }
