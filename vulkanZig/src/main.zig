@@ -2,8 +2,23 @@ const std = @import("std");
 const builtin = @import("builtin");
 const c = @import("c.zig");
 
-fn load(comptime name: []const u8, proc_addr: anytype) std.meta.Child(@field(c, "PFN_" ++ name)) {
-    return @ptrCast(std.meta.Child(@field(c, "PFN_" ++ name)), proc_addr(null, name));
+fn GetFunctionPointer(comptime name: []const u8) type {
+    return std.meta.Child(@field(c, "PFN_" ++ name));
+}
+
+fn lookup(library: *std.DynLib, comptime name: [:0]const u8) GetFunctionPointer(name) {
+    return library.lookup(GetFunctionPointer(name), name).?;
+}
+
+fn load(comptime name: []const u8, proc_addr: anytype, handle: anytype) GetFunctionPointer(name) {
+    return @ptrCast(GetFunctionPointer(name), proc_addr(handle, name.ptr));
+}
+
+fn load_library(library_names: []const []const u8) !std.DynLib {
+    for (library_names) |library_name| {
+        return std.DynLib.open(library_name) catch continue;
+    }
+    return error.NotFound;
 }
 
 const Entry = struct {
@@ -19,9 +34,9 @@ const Entry = struct {
     create_instance: std.meta.Child(c.PFN_vkCreateInstance),
 
     fn init() !Self {
-        var library = try load_library();
-        const get_instance_proc_addr = library.lookup(std.meta.Child(c.PFN_vkGetInstanceProcAddr), "vkGetInstanceProcAddr").?;
-        const create_instance = @ptrCast(std.meta.Child(c.PFN_vkCreateInstance), get_instance_proc_addr(null, "vkCreateInstance"));
+        var library = try load_library(LibraryNames);
+        const get_instance_proc_addr = lookup(&library, "vkGetInstanceProcAddr");
+        const create_instance = load("vkCreateInstance", get_instance_proc_addr, null);
         return .{
             .handle = library,
             .get_instance_proc_addr = get_instance_proc_addr,
@@ -31,13 +46,6 @@ const Entry = struct {
 
     fn deinit(self: *Self) void {
         self.handle.close();
-    }
-
-    fn load_library() !std.DynLib {
-        for (LibraryNames) |library_name| {
-            return std.DynLib.open(library_name) catch continue;
-        }
-        return error.NotFound;
     }
 };
 
@@ -54,7 +62,8 @@ const Instance = struct {
         var instance: c.VkInstance = undefined;
         switch (entry.create_instance(&info, allocation_callbacks, &instance)) {
             c.VK_SUCCESS => {
-                const destroy_instance = @ptrCast(std.meta.Child(c.PFN_vkDestroyInstance), entry.get_instance_proc_addr(instance, "vkDestroyInstance"));
+                const destroy_instance = load("vkDestroyInstance", entry.get_instance_proc_addr, instance);
+                //@ptrCast(std.meta.Child(c.PFN_vkDestroyInstance), entry.get_instance_proc_addr(instance, "vkDestroyInstance"));
                 return .{
                     .handle = instance,
                     .destroy_instance = destroy_instance,
