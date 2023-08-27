@@ -60,18 +60,20 @@ const Instance = struct {
             .sType = c.VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
         });
         var instance: c.VkInstance = undefined;
-        switch (entry.create_instance(&info, allocation_callbacks, &instance)) {
-            c.VK_SUCCESS => {
-                const destroy_instance = load("vkDestroyInstance", entry.get_instance_proc_addr, instance);
-                //@ptrCast(std.meta.Child(c.PFN_vkDestroyInstance), entry.get_instance_proc_addr(instance, "vkDestroyInstance"));
-                return .{
-                    .handle = instance,
-                    .destroy_instance = destroy_instance,
-                    .allocation_callbacks = allocation_callbacks,
-                };
+        return switch (entry.create_instance(&info, allocation_callbacks, &instance)) {
+            c.VK_SUCCESS => .{
+                .handle = instance,
+                .destroy_instance = load("vkDestroyInstance", entry.get_instance_proc_addr, instance),
+                .allocation_callbacks = allocation_callbacks,
             },
+            c.VK_ERROR_OUT_OF_HOST_MEMORY => error.OutOfHostMemory,
+            c.VK_ERROR_OUT_OF_DEVICE_MEMORY => error.OutOfDeviceMemory,
+            c.VK_ERROR_INITIALIZATION_FAILED => error.InitializationFailed,
+            c.VK_ERROR_LAYER_NOT_PRESENT => error.LayerNotPresent,
+            c.VK_ERROR_EXTENSION_NOT_PRESENT => error.ExtensionNotPresent,
+            c.VK_ERROR_INCOMPATIBLE_DRIVER => error.IncompatibleDriver,
             else => unreachable,
-        }
+        };
     }
 
     fn deinit(self: Self) void {
