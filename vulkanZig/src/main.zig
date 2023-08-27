@@ -52,8 +52,9 @@ const Entry = struct {
 const Instance = struct {
     const Self = @This();
     handle: c.VkInstance,
-    destroy_instance: std.meta.Child(c.PFN_vkDestroyInstance),
     allocation_callbacks: ?*c.VkAllocationCallbacks,
+    destroy_instance: std.meta.Child(c.PFN_vkDestroyInstance),
+    enumerate_physical_devices: std.meta.Child(c.PFN_vkEnumeratePhysicalDevices),
 
     fn init(entry: Entry, allocation_callbacks: ?*c.VkAllocationCallbacks) !Self {
         const info = std.mem.zeroInit(c.VkInstanceCreateInfo, .{
@@ -64,6 +65,7 @@ const Instance = struct {
             c.VK_SUCCESS => .{
                 .handle = instance,
                 .destroy_instance = load("vkDestroyInstance", entry.get_instance_proc_addr, instance),
+                .enumerate_physical_devices = load("vkEnumeratePhysicalDevices", entry.get_instance_proc_addr, instance),
                 .allocation_callbacks = allocation_callbacks,
             },
             c.VK_ERROR_OUT_OF_HOST_MEMORY => error.OutOfHostMemory,
@@ -90,4 +92,6 @@ pub fn main() !void {
 
     const instance = try Instance.init(entry, null);
     defer instance.deinit();
+
+    instance.enumerate_physical_devices();
 }
