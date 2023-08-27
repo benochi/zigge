@@ -95,5 +95,5 @@ pub fn main() !void {
 
     var count: u32 = undefined;
     _ = instance.enumerate_physical_devices(instance.handle, &count, null);
-    std.debug.print("{}", .{count});
+    std.debug.print("{}\n", .{count});
 }
