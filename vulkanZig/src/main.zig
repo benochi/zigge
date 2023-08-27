@@ -93,5 +93,7 @@ pub fn main() !void {
     const instance = try Instance.init(entry, null);
     defer instance.deinit();
 
-    instance.enumerate_physical_devices();
+    var count: u32 = undefined;
+    _ = instance.enumerate_physical_devices(instance.handle, &count, null);
+    std.debug.print("{}", .{count});
 }
