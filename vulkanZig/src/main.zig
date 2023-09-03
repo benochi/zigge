@@ -93,7 +93,13 @@ pub fn main() !void {
     const instance = try Instance.init(entry, null);
     defer instance.deinit();
 
+    var general_purpose_allocator = std.heap.GeneralPurposeAllocator(.{ .verbose_log = true }){};
+    defer std.debug.assert(general_purpose_allocator.deinit() == .ok);
+    const allocator = general_purpose_allocator.allocator();
+
     var count: u32 = undefined;
     _ = instance.enumerate_physical_devices(instance.handle, &count, null);
-    std.debug.print("{}\n", .{count});
+    var physical_devices = try allocator.alloc(c.VkPhysicalDevice, count);
+    defer allocator.free(physical_devices);
+    _ = instance.enumerate_physical_devices(instance.handle, &count, physical_devices.ptr);
 }
